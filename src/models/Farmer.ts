@@ -15,10 +15,11 @@ export interface IEarnedBadge {
 
 export interface IFarmer extends Document {
   name: string;
+  email: string;
+  passwordHash: string;
   phone?: string;
-  email?: string;
 
-  preferredLanguage: LocaleCode; // "bn" | "en"
+  preferredLanguage: LocaleCode;
 
   location?: ILocation;
 
@@ -55,8 +56,18 @@ const earnedBadgeSchema = new Schema<IEarnedBadge>(
 const farmerSchema = new Schema<IFarmer>(
   {
     name: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true
+    },
+    passwordHash: {
+      type: String,
+      required: true
+    },
     phone: String,
-    email: String,
 
     preferredLanguage: {
       type: String,
