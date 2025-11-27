@@ -16,7 +16,7 @@ export const createApp = (): Application => {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true }));
 
-  app.use(router);
+  app.use("/v1", router);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
