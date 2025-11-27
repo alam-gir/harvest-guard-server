@@ -9,13 +9,19 @@ export const requireAuth = async (
   next: NextFunction
 ) => {
   try {
-    const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw ApiError.unauthorized("Missing or invalid Authorization header");
+    let token : string | undefined;
+
+    // Prefer Authorization header (Bearer token)
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
     }
 
-    const token = authHeader.split(" ")[1];
+    // Fallback to accessToken cookie
+    if (!token && req.cookies && req.cookies.accessToken) {
+      token = req.cookies.accessToken as string;
+    }
 
     const payload = verifyAccessToken(token!);
 

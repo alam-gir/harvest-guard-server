@@ -18,5 +18,11 @@ export const env = {
     refreshTokenSecret: required(process.env.REFRESH_TOKEN_SECRET, "REFRESH_TOKEN_SECRET"),
     accessTokenTtl: process.env.ACCESS_TOKEN_TTL || "15m",
     refreshTokenTtl: process.env.REFRESH_TOKEN_TTL || "30d"
+  },
+
+  cookie: {
+    domain: process.env.COOKIE_DOMAIN || undefined,
+    secure: process.env.COOKIE_SECURE === "true",
+    sameSite: (process.env.COOKIE_SAMESITE as "lax" | "strict" | "none") || "lax"
   }
 };
