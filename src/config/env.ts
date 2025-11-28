@@ -24,5 +24,17 @@ export const env = {
     domain: process.env.COOKIE_DOMAIN || undefined,
     secure: process.env.COOKIE_SECURE === "true",
     sameSite: (process.env.COOKIE_SAMESITE as "lax" | "strict" | "none") || "lax"
+  },
+
+  ai: {
+    geminiApiKey: required(process.env.GEMINI_API_KEY, "GEMINI_API_KEY")
+  },
+
+  r2: {
+    accessKeyId: required(process.env.R2_ACCESS_KEY_ID, "R2_ACCESS_KEY_ID"),
+    secretAccessKey: required(process.env.R2_SECRET_ACCESS_KEY, "R2_SECRET_ACCESS_KEY"),
+    endpoint: required(process.env.R2_ENDPOINT, "R2_ENDPOINT"),
+    bucket: required(process.env.R2_BUCKET, "R2_BUCKET"),
+    publicUrl: required(process.env.R2_PUBLIC_URL, "R2_PUBLIC_URL")
   }
 };

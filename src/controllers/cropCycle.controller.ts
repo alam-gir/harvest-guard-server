@@ -3,9 +3,18 @@ import { catchAsync } from "../utils/catchAsync";
 import { sendSuccess } from "../utils/sendResponse";
 import { CropCycleService } from "../services/cropCycle.service";
 import { ApiError } from "../utils/ApiError";
+import { TypedRequestBody } from "../models/types/requests";
+import { CropLifecycleStage } from "../models/CropCycle";
 
 export const createCropCycleController = catchAsync(
-  async (req: Request, res: Response) => {
+  async (req: TypedRequestBody<{
+    cropDefinitionCode: string;
+    varietyName?: string;
+    fieldName?: string;
+    fieldAreaDecimal?: number;
+    startMode: CropLifecycleStage;
+    startDate?: string;
+  }>, res: Response) => {
     if (!req.authUser) {
       throw ApiError.unauthorized("Not authenticated");
     }
@@ -17,8 +26,16 @@ export const createCropCycleController = catchAsync(
     if (!cropDefinitionCode) {
       throw ApiError.badRequest("cropDefinitionCode is required");
     }
-    if (!startMode || !["planning", "planted", "harvested"].includes(startMode)) {
-      throw ApiError.badRequest("startMode must be 'planning', 'planted', or 'harvested'");
+    if (!startMode || ![
+        "planned",
+        "planted",
+        "growing",
+        "pre_harvest",
+        "harvested",
+        "stored",
+        "completed"
+      ].includes(startMode)) {
+      throw ApiError.badRequest("startMode must be 'planned' ,'planted', 'growing', 'pre_harvest', 'harvested', 'stored' or 'completed'");
     }
 
     const cropCycle = await CropCycleService.createCropCycle({
@@ -92,9 +109,17 @@ export const updateCropStageController = catchAsync(
     if (!id) {
       throw ApiError.badRequest("Crop id is required");
     }
-    if (!newStage || !["planted", "harvested", "stored", "completed"].includes(newStage)) {
+    if (!newStage || ![
+        "planned",
+        "planted",
+        "growing",
+        "pre_harvest",
+        "harvested",
+        "stored",
+        "completed"
+      ].includes(newStage)) {
       throw ApiError.badRequest(
-        "newStage must be one of: 'planted', 'harvested', 'stored', 'completed'"
+        "newStage must be 'planned' ,'planted', 'growing', 'pre_harvest', 'harvested', 'stored' or 'completed'"
       );
     }
 

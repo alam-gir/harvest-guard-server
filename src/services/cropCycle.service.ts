@@ -43,7 +43,7 @@ export class CropCycleService {
     let stage: CropLifecycleStage = "planned";
     const dates: Partial<ICropCycle["dates"]> = {};
 
-    if (startMode === "planning") {
+    if (startMode === "planned") {
       stage = "planned";
       dates.plannedPlantingAt = parsedStartDate;
     } else if (startMode === "planted") {

@@ -1,5 +1,10 @@
 import { Schema, model, Document, Types } from "mongoose";
-import { LocalizedString, localizedStringSchema } from "./types/common";
+import {
+  LocalizedString,
+  localizedStringSchema,
+  LocalizedStringArray,
+  localizedStringArraySchema
+} from "./types/common";
 
 export type HealthScanType = "leaf" | "grain" | "other";
 
@@ -10,11 +15,11 @@ export interface IHealthScan extends Document {
   scanType: HealthScanType;
   imageUrl: string;
 
-  aiLabel?: string;
+  aiLabel?: LocalizedString;
   confidence?: number;
 
   aiSummary?: LocalizedString;
-  recommendedActions?: LocalizedString;
+  recommendedActions?: LocalizedStringArray;
 
   meta?: {
     modelName?: string;
@@ -37,11 +42,11 @@ const healthScanSchema = new Schema<IHealthScan>(
     },
     imageUrl: { type: String, required: true },
 
-    aiLabel: String,
+    aiLabel: localizedStringSchema,
     confidence: Number,
 
     aiSummary: localizedStringSchema,
-    recommendedActions: localizedStringSchema,
+    recommendedActions: localizedStringArraySchema,
 
     meta: {
       modelName: String,
