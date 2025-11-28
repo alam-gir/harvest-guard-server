@@ -58,8 +58,7 @@ export interface IStorageProfile {
 export interface ICropDefinition extends Document {
   code: string;              // "paddy", "tomato"
   name: LocalizedString;     // { bn: "ধান", en: "Paddy" }
-
-  defaultSeason?: string;    // "Boro", "Aman", etc.
+  varieties?: LocalizedString[];
   isActive: boolean;
 
   stages: IStageDefinition[];
@@ -132,7 +131,7 @@ const cropDefinitionSchema = new Schema<ICropDefinition>(
   {
     code: { type: String, required: true, unique: true },
     name: { type: localizedStringSchema, required: true },
-    defaultSeason: String,
+    varieties: { type: [localizedStringSchema], default: [] },
     isActive: { type: Boolean, default: true },
 
     stages: { type: [stageDefinitionSchema], default: [] },

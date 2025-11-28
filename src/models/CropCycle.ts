@@ -1,5 +1,7 @@
 import { Schema, model, Document, Types } from "mongoose";
 import { IFarmer } from "./Farmer";
+import { ICropDefinition } from "./CropDefinition";
+import { LocalizedString, localizedStringSchema } from "./types/common";
 
 export type CropLifecycleStage =
   | "planned"
@@ -58,9 +60,8 @@ export interface IDatesInfo {
 
 export interface ICropCycle extends Document {
   farmer: Types.ObjectId | IFarmer;
-  cropType: string;     // references CropDefinition.code
-  variety?: string;
-  season?: string;
+  cropDefinition: Types.ObjectId | ICropDefinition;     
+  variety?: LocalizedString;
 
   stage: CropLifecycleStage;
 
@@ -142,9 +143,8 @@ const datesInfoSchema = new Schema<IDatesInfo>(
 const cropCycleSchema = new Schema<ICropCycle>(
   {
     farmer: { type: Schema.Types.ObjectId, ref: "Farmer", required: true },
-    cropType: { type: String, required: true }, // must match CropDefinition.code
-    variety: String,
-    season: String,
+    cropDefinition: { type: Schema.Types.ObjectId, ref: "CropDefinition", required: true },
+    variety: {type: localizedStringSchema, default: {}},
 
     stage: {
       type: String,
