@@ -16,3 +16,4 @@ export interface UpdateStageInput {
   newStage: CropLifecycleStage;
   date?: string; // optional override date
 }
+
