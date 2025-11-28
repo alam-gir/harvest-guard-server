@@ -17,3 +17,44 @@ export interface UpdateStageInput {
   date?: string; // optional override date
 }
 
+export interface StartStorageInput {
+  farmerId: string;
+  cropCycleId: string;
+
+  storageType: string;
+
+  storageLocation?: {
+    division?: string;
+    district?: string;
+    upazila?: string;
+    description?: string;
+  };
+
+  estimatedWeightKg?: number;
+  currentMoisturePercent?: number;
+  storageStartedAt?: string | Date;
+}
+
+export interface UpdateStorageInput {
+  farmerId: string;
+  cropCycleId: string;
+
+  storageType?: string;
+  storageLocation?: {
+    division?: string;
+    district?: string;
+    upazila?: string;
+    description?: string;
+  };
+
+  estimatedWeightKg?: number;
+  currentMoisturePercent?: number;
+}
+
+export interface CompleteStorageInput {
+  farmerId: string;
+  cropCycleId: string;
+
+  finalWeightKg?: number;
+  storageEndAt?: string | Date;
+}

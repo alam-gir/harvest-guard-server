@@ -8,6 +8,7 @@ import {
 } from "../controllers/cropCycle.controller";
 import { requireAuth } from "../middlewares/requireAuth";
 import { computeEtclController } from "../controllers/etcl.controller";
+import { completeStorageController, startStorageController, updateStorageController } from "../controllers/storage.controller";
 
 export const cropCycleRouter = Router();
 
@@ -29,3 +30,11 @@ cropCycleRouter.patch("/:id/stage", updateCropStageController);
 // ETCL endpoint
 // POST /api/crops/:cropCycleId/etcl
 cropCycleRouter.post("/:cropCycleId/etcl", computeEtclController);
+
+// storage-specific APIs
+cropCycleRouter.post("/:cropCycleId/storage/start", startStorageController);
+cropCycleRouter.patch("/:cropCycleId/storage", updateStorageController);
+cropCycleRouter.post(
+  "/:cropCycleId/storage/complete",
+  completeStorageController
+);
